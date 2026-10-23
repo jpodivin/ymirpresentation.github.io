@@ -92,7 +92,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
     <header class="site-header">
       <a class="brand" href="#top" aria-label="Ymir, back to top"><span class="brand-mark">Y</span><span>YMIR<span class="brand-light"> / WORKFLOWS</span></span></a>
       <nav aria-label="Main navigation"><a href="#map">The map</a><a href="#waiting">Waiting loop</a><a href="#validation">Validation</a></nav>
-      <button type="button" class="theme-toggle" aria-label="Dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">◐</span><span class="theme-label">Dark mode</span></button>
+      <button type="button" class="theme-toggle" aria-label="Dark mode" aria-pressed="false"><span class="theme-icon" aria-hidden="true">☀</span><span class="theme-label">Light mode</span></button>
       <span class="header-tag">ENGINEER FIELD GUIDE <span class="tag-dot"></span> 2026</span>
     </header>
 
@@ -167,9 +167,13 @@ document.querySelector<HTMLButtonElement>('[data-jump="validation"]')?.addEventL
   detail.scrollIntoView({ behavior: 'smooth', block: 'center' })
 })
 const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle')!
+const themeIcon = themeToggle.querySelector<HTMLElement>('.theme-icon')!
+const themeLabel = themeToggle.querySelector<HTMLElement>('.theme-label')!
 function syncThemeToggle() {
   const dark = document.documentElement.dataset.theme === 'dark'
   themeToggle.setAttribute('aria-pressed', String(dark))
+  themeIcon.textContent = dark ? '☾' : '☀'
+  themeLabel.textContent = dark ? 'Dark mode' : 'Light mode'
 }
 themeToggle.addEventListener('click', () => {
   const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'
