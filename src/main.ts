@@ -141,7 +141,7 @@ document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
 
 const detail = document.querySelector<HTMLElement>('#step-detail')!
 const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-step]')]
-function activate(id: string, moveFocus = false) {
+function activate(id: string, moveFocus = false, moveView = false) {
   const step = steps.find(item => item.id === id)
   if (!step) return
   for (const button of buttons) {
@@ -151,15 +151,16 @@ function activate(id: string, moveFocus = false) {
     if (active && moveFocus) button.focus()
   }
   detail.innerHTML = selected(step)
+  if (moveView) detail.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 for (const button of buttons) {
-  button.addEventListener('click', () => activate(button.dataset.step!))
+  button.addEventListener('click', () => activate(button.dataset.step!, false, true))
   button.addEventListener('keydown', event => {
     if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return
     event.preventDefault()
     const index = buttons.indexOf(button)
     const next = (index + (event.key === 'ArrowRight' ? 1 : -1) + buttons.length) % buttons.length
-    activate(buttons[next].dataset.step!, true)
+    activate(buttons[next].dataset.step!, true, true)
   })
 }
 document.querySelector<HTMLButtonElement>('[data-jump="validation"]')?.addEventListener('click', () => {
